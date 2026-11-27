@@ -3,647 +3,295 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VoiceSaathi Edu V3</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>VoiceSaathi Practice</title>
 
 <style>
 *{box-sizing:border-box}
 body{
-  margin:0;padding:18px;
-  font-family:Arial,sans-serif;
-  background:linear-gradient(135deg,#07152b,#102d42,#092d32);
-  color:white;min-height:100vh
+ margin:0;padding:20px;
+ font-family:Arial,sans-serif;
+ background:linear-gradient(135deg,#07152b,#123c49);
+ color:white;min-height:100vh
 }
 .container{
-  max-width:680px;margin:25px auto;
-  padding:25px;background:#10263b;
-  border:1px solid #31566b;border-radius:22px;
-  box-shadow:0 15px 50px #0007
+ max-width:650px;margin:20px auto;
+ padding:24px;background:#10263b;
+ border:1px solid #31566b;border-radius:20px
 }
 h1{text-align:center;color:#53e5b2}
-.subtitle{text-align:center;color:#b9ccdc;margin-bottom:20px}
-.status-badge{
-  background:#173d3c;color:#53e5b2;
-  padding:10px;text-align:center;border-radius:20px;
-  font-size:13px;margin:15px 0
+.subtitle{text-align:center;color:#b9ccdc}
+select{
+ width:100%;padding:14px;margin:12px 0;
+ background:#071b2d;color:white;
+ border:1px solid #45657b;border-radius:10px;
+ font-size:16px
 }
-label{display:block;margin:17px 0 8px;color:#9fe8d0}
-select,input{
-  width:100%;padding:14px;border-radius:10px;
-  border:1px solid #45657b;background:#071b2d;
-  color:white;font-size:15px
+button{
+ cursor:pointer;border:0;border-radius:10px;
+ padding:14px;font-size:15px;font-weight:bold
 }
-.tabs{display:flex;gap:10px;margin:18px 0}
-.tabs button{
-  flex:1;padding:13px;border-radius:10px;
-  border:1px solid #31566b;background:#071b2d;color:white
+.primary{
+ width:100%;background:#13a982;color:white;
+ margin-top:12px
 }
-.tabs button.active{background:#13a982}
-.mic-area{text-align:center;margin:25px 0}
-#mic{
-  width:95px;height:95px;border-radius:50%;
-  border:0;background:#13c993;font-size:40px;
-  box-shadow:0 0 25px #13c99366
+.secondary{
+ background:#1764e8;color:white;width:100%;margin-top:12px
 }
-#mic.listening{background:#ef665e}
-#status{text-align:center;color:#9fe8d0;margin-top:12px}
-.action{
-  width:100%;padding:14px;border:0;border-radius:11px;
-  margin-top:12px;background:#1764e8;color:white;
-  font-size:16px;font-weight:bold
-}
-.action:disabled{opacity:.6}
-.card{
-  background:#071b2d;border:1px solid #31566b;
-  border-radius:14px;padding:17px;margin-top:18px
-}
-.card h3{color:#53e5b2;margin-bottom:12px}
-.card p{line-height:1.7;color:#e1eaf0;overflow-wrap:anywhere}
-.engine{font-size:12px;color:#53e5b2;margin-top:10px}
 .option{
-  display:block;width:100%;padding:13px;margin:9px 0;
-  background:#17374b;border:1px solid #31566b;
-  border-radius:10px;color:white;text-align:left
+ display:block;width:100%;text-align:left;
+ background:#17374b;color:white;
+ border:1px solid #45657b;margin:10px 0
 }
-.option:disabled{opacity:.8}
-#feedback{margin-top:12px;color:#53e5b2;line-height:1.6}
+.option:disabled{cursor:default;opacity:1}
+.option.correct{background:#176b49;border-color:#53e5b2}
+.option.wrong{background:#853e43;border-color:#ef7777}
+.card{
+ background:#071b2d;border-radius:13px;
+ padding:18px;margin-top:18px
+}
+#question{font-size:19px;line-height:1.6}
+#feedback{color:#53e5b2;line-height:1.6}
+#progress{color:#a9c9d5;font-size:13px}
+#score{font-size:23px;color:#53e5b2;text-align:center}
 .hidden{display:none}
-.footer{text-align:center;margin-top:25px;color:#8ba9bb;font-size:13px}
 </style>
 </head>
 
 <body>
 <div class="container">
 
-<h1>🎓 VoiceSaathi Edu</h1>
-<p class="subtitle">Learn smarter. Speak your language. Grow together.</p>
+<h1>🎓 VoiceSaathi Practice</h1>
+<p class="subtitle">Learn • Practice • Improve</p>
 
-<div class="status-badge">
-🌍 Hybrid Learning | Offline + AI Tutor
-</div>
-
-<div class="tabs">
-<button id="learnTab" class="active">📚 Learn</button>
-<button id="quizTab">🧠 Practice</button>
-</div>
-
-<label>Select your language</label>
-<select id="language">
-<option value="en-IN">English</option>
-<option value="ta-IN">Tamil</option>
-<option value="hi-IN">Hindi</option>
-</select>
-
-<label>Select subject</label>
+<label for="subject">Choose your subject</label>
 <select id="subject">
-<option value="science">Science</option>
-<option value="maths">Mathematics</option>
 <option value="english">English</option>
-<option value="physics">Physics</option>
-<option value="chemistry">Chemistry</option>
-<option value="computer">Computer Science</option>
+<option value="tamil">Tamil</option>
+<option value="physics">Engineering Physics</option>
+<option value="chemistry">Environmental Chemistry</option>
+<option value="maths">Matrices and Calculus</option>
 </select>
 
-<!-- LEARN SECTION -->
-<div id="learnSection">
-
-<div class="mic-area">
-<button id="mic">🎤</button>
-<p id="status">Ready to learn! Ask your first question.</p>
-</div>
-
-<label>Ask your question</label>
-<input id="question" placeholder="Example: What is a computer program?">
-
-<button class="action" id="ask">Ask VoiceSaathi →</button>
-
 <div class="card">
-<h3>📝 Your Question</h3>
-<p id="recognized">Your question appears here.</p>
+ <p id="progress">Ready to begin</p>
+ <p id="question">Select a subject and press Start Quiz.</p>
+ <div id="options"></div>
+ <p id="feedback"></p>
+ <p id="score"></p>
 </div>
 
-<div class="card">
-<h3>🤖 AI Learning Explanation</h3>
-<p id="answer">Hello! Ask me an educational question.</p>
-<p id="engine" class="engine">Learning engine: Waiting</p>
-<button class="action" id="speak">🔊 Listen to Explanation</button>
-</div>
-
-</div>
-
-<!-- PRACTICE SECTION -->
-<div id="quizSection" class="hidden">
-<div class="card">
-<h3>🧠 Practice Time</h3>
-<p id="quizQuestion">Press Start Quiz to begin.</p>
-<div id="quizOptions"></div>
-<p id="feedback"></p>
-<button class="action" id="startQuiz">Start Quiz</button>
-<button class="action" id="nextQuiz">Next Question</button>
-</div>
-</div>
-
-<div class="footer">
-VoiceSaathi Edu | SCALER × Flow | Round 2
-</div>
+<button class="primary" id="start">▶ Start Quiz</button>
+<button class="secondary" id="next">Next Question →</button>
 
 </div>
 
 <script>
 
-// ===================================
-// 1. CONFIGURATION
-// ===================================
-
-// Add your actual Render backend URL after deployment.
-// Example: https://your-service.onrender.com
-
-const AI_BACKEND_URL = "";
-
 const $ = id => document.getElementById(id);
 
-let currentAnswer = "";
-let recognition = null;
-let activeQuiz = [];
-let quizIndex = 0;
-let quizScore = 0;
-let selected = false;
-
-
-// ===================================
-// 2. OFFLINE LESSON DATABASE
-// ===================================
-
-const lessons = {
-
-science: [
-{
-keys:["photosynthesis","ஒளிச்சேர்க்கை","प्रकाश संश्लेषण"],
-en:"Photosynthesis is the process by which green plants prepare food using sunlight, water and carbon dioxide. Oxygen is released during this process.",
-ta:"ஒளிச்சேர்க்கை என்பது பச்சைத் தாவரங்கள் சூரிய ஒளி, நீர் மற்றும் கார்பன் டை ஆக்சைடைப் பயன்படுத்தி உணவு தயாரிக்கும் செயல்முறையாகும். இதில் ஆக்சிஜன் வெளியிடப்படுகிறது.",
-hi:"प्रकाश संश्लेषण वह प्रक्रिया है जिसमें हरे पौधे सूर्य के प्रकाश, पानी और कार्बन डाइऑक्साइड से भोजन बनाते हैं।"
-},
-{
-keys:["gravity","ஈர்ப்பு","गुरुत्वाकर्षण"],
-en:"Gravity is a force that attracts objects towards each other. Earth's gravity pulls objects towards its centre.",
-ta:"ஈர்ப்பு விசை என்பது பொருட்களை ஒன்றை ஒன்று ஈர்க்கும் விசையாகும். பூமியின் ஈர்ப்பு விசை பொருட்களை அதன் மையத்தை நோக்கி இழுக்கிறது.",
-hi:"गुरुत्वाकर्षण वह बल है जो वस्तुओं को एक-दूसरे की ओर आकर्षित करता है।"
-},
-{
-keys:["water cycle","நீர்சுழற்சி","जल चक्र"],
-en:"The water cycle is the continuous movement of water between the Earth's surface and atmosphere. Its stages include evaporation, condensation and precipitation.",
-ta:"நீர்சுழற்சி என்பது பூமிக்கும் வளிமண்டலத்திற்கும் இடையே நீர் தொடர்ந்து சுழலும் செயல்முறையாகும். இதன் நிலைகள் ஆவியாதல், குளிர்தல் மற்றும் மழைப்பொழிவு.",
-hi:"जल चक्र पृथ्वी और वायुमंडल के बीच पानी की निरंतर गति है। इसके चरण वाष्पीकरण, संघनन और वर्षा हैं।"
-}
-],
-
-maths: [
-{
-keys:["algebra","இயற்கணிதம்","बीजगणित"],
-en:"Algebra uses letters and symbols to represent unknown numbers. Example: If x + 2 = 5, then x = 3.",
-ta:"இயற்கணிதம் என்பது தெரியாத எண்களைக் குறிக்க எழுத்துகளையும் குறியீடுகளையும் பயன்படுத்தும் கணிதப் பிரிவாகும். x + 2 = 5 என்றால் x = 3.",
-hi:"बीजगणित अज्ञात संख्याओं को दर्शाने के लिए अक्षरों और चिह्नों का उपयोग करता है। यदि x + 2 = 5, तो x = 3।"
-},
-{
-keys:["fraction","பின்னம்","भिन्न"],
-en:"A fraction represents a part of a whole. It has a numerator at the top and a denominator at the bottom. Example: 1/2.",
-ta:"பின்னம் என்பது ஒரு முழுமையின் ஒரு பகுதியைக் குறிக்கிறது. மேலே தொகுதியும் கீழே பகுதியும் இருக்கும். உதாரணம்: 1/2.",
-hi:"भिन्न किसी पूर्ण वस्तु के एक भाग को दर्शाता है। इसमें ऊपर अंश और नीचे हर होता है। उदाहरण: 1/2।"
-},
-{
-keys:["area of circle","வட்டத்தின் பரப்பளவு","वृत्त का क्षेत्रफल"],
-en:"The area of a circle is calculated using A = πr², where r is the radius.",
-ta:"வட்டத்தின் பரப்பளவைக் கணக்கிடும் சூத்திரம் A = πr². இங்கு r என்பது ஆரம்.",
-hi:"वृत्त का क्षेत्रफल A = πr² सूत्र से निकाला जाता है। यहाँ r त्रिज्या है।"
-}
-],
-
-english: [
-{
-keys:["noun","பெயர்ச்சொல்","संज्ञा"],
-en:"A noun is a word that names a person, place, animal or thing. Examples: student, Chennai, dog and book.",
-ta:"பெயர்ச்சொல் என்பது மனிதர், இடம், விலங்கு அல்லது பொருளைக் குறிக்கும் சொல். உதாரணம்: மாணவர், சென்னை, நாய், புத்தகம்.",
-hi:"संज्ञा वह शब्द है जो किसी व्यक्ति, स्थान, जानवर या वस्तु का नाम बताता है।"
-},
-{
-keys:["verb","வினைச்சொல்","क्रिया"],
-en:"A verb is an action word. Examples: run, eat, write and think.",
-ta:"வினைச்சொல் என்பது ஒரு செயலைக் குறிக்கும் சொல். உதாரணம்: ஓடு, சாப்பிடு, எழுது, சிந்தி.",
-hi:"क्रिया वह शब्द है जो किसी कार्य को बताता है। उदाहरण: दौड़ना, खाना, लिखना।"
-},
-{
-keys:["adjective","பெயரடை","विशेषण"],
-en:"An adjective describes a noun. Examples: beautiful flower, tall building and clever student.",
-ta:"பெயரடை என்பது பெயர்ச்சொல்லின் தன்மையை விளக்கும் சொல். உதாரணம்: அழகான மலர்.",
-hi:"विशेषण वह शब्द है जो संज्ञा की विशेषता बताता है। उदाहरण: सुंदर फूल।"
-}
-],
-
-physics: [
-{
-keys:["force","விசை","बल"],
-en:"Force is a push or pull acting on an object. Its SI unit is Newton (N). Newton's second law is F = ma.",
-ta:"விசை என்பது ஒரு பொருளின் மீது செயல்படும் தள்ளுதல் அல்லது இழுத்தல் ஆகும். இதன் SI அலகு நியூட்டன். நியூட்டனின் இரண்டாவது விதி F = ma.",
-hi:"बल किसी वस्तु पर लगाया गया धक्का या खिंचाव है। इसका SI मात्रक न्यूटन है। न्यूटन का दूसरा नियम F = ma है।"
-},
-{
-keys:["energy","ஆற்றல்","ऊर्जा"],
-en:"Energy is the capacity to do work. Its SI unit is Joule (J).",
-ta:"ஆற்றல் என்பது வேலை செய்யும் திறன் ஆகும். இதன் SI அலகு ஜூல்.",
-hi:"ऊर्जा कार्य करने की क्षमता है। इसका SI मात्रक जूल है।"
-},
-{
-keys:["velocity","திசைவேகம்","वेग"],
-en:"Velocity is the rate of change of displacement with time. Velocity has both magnitude and direction. Its SI unit is metre per second.",
-ta:"திசைவேகம் என்பது காலத்திற்கு ஏற்ப இடப்பெயர்ச்சி மாறும் வீதமாகும். இதற்கு அளவும் திசையும் உண்டு. SI அலகு மீட்டர்/வினாடி.",
-hi:"वेग समय के साथ विस्थापन में परिवर्तन की दर है। इसमें परिमाण और दिशा दोनों होते हैं। इसका SI मात्रक मीटर प्रति सेकंड है।"
-},
-{
-keys:["newton","நியூட்டன்","न्यूटन"],
-en:"Newton's laws of motion explain how forces affect the motion of objects. The second law is expressed as F = ma.",
-ta:"நியூட்டனின் இயக்க விதிகள் விசைகள் பொருட்களின் இயக்கத்தை எவ்வாறு மாற்றுகின்றன என்பதை விளக்குகின்றன. இரண்டாவது விதி F = ma.",
-hi:"न्यूटन के गति के नियम बताते हैं कि बल वस्तुओं की गति को कैसे प्रभावित करते हैं। दूसरा नियम F = ma है।"
-}
-],
-
-chemistry: [
-{
-keys:["atom","அணு","परमाणु"],
-en:"An atom is the basic unit of an element. It contains protons, neutrons and electrons.",
-ta:"அணு என்பது ஒரு தனிமத்தின் அடிப்படை அலகாகும். இதில் புரோட்டான்கள், நியூட்ரான்கள் மற்றும் எலக்ட்ரான்கள் உள்ளன.",
-hi:"परमाणु किसी तत्व की मूल इकाई है। इसमें प्रोटॉन, न्यूट्रॉन और इलेक्ट्रॉन होते हैं।"
-},
-{
-keys:["water","நீர்","पानी"],
-en:"Water has the chemical formula H2O. Each water molecule contains two hydrogen atoms and one oxygen atom.",
-ta:"நீரின் வேதியியல் வாய்ப்பாடு H2O. ஒவ்வொரு நீர் மூலக்கூறிலும் இரண்டு ஹைட்ரஜன் அணுக்களும் ஒரு ஆக்சிஜன் அணுவும் உள்ளன.",
-hi:"पानी का रासायनिक सूत्र H2O है। प्रत्येक अणु में दो हाइड्रोजन परमाणु और एक ऑक्सीजन परमाणु होता है।"
-},
-{
-keys:["acid","அமிலம்","अम्ल"],
-en:"An acid is a substance that donates hydrogen ions in a suitable solution. Acids generally have a pH below 7.",
-ta:"அமிலம் என்பது பொருத்தமான கரைசலில் ஹைட்ரஜன் அயன்களை வழங்கும் பொருளாகும். பொதுவாக அமிலங்களின் pH மதிப்பு 7-ஐ விடக் குறைவாக இருக்கும்.",
-hi:"अम्ल वह पदार्थ है जो उपयुक्त विलयन में हाइड्रोजन आयन देता है। अम्लों का pH सामान्यतः 7 से कम होता है।"
-},
-{
-keys:["polymer","பாலிமர்","बहुलक"],
-en:"A polymer is a large molecule made of repeating smaller units called monomers. Examples include plastic and natural rubber.",
-ta:"பாலிமர் என்பது மோனோமர்கள் எனப்படும் சிறிய அலகுகள் மீண்டும் மீண்டும் இணைந்து உருவாகும் பெரிய மூலக்கூறாகும்.",
-hi:"बहुलक छोटे दोहराए जाने वाले अणुओं से बना एक बड़ा अणु है।"
-}
-],
-
-computer: [
-{
-keys:["program","நிரல்","प्रोग्राम"],
-en:"A computer program is a set of instructions that tells a computer what tasks to perform. Programs can be written using languages like C, Python and Java.",
-ta:"கணினி நிரல் என்பது கணினி செய்ய வேண்டிய செயல்களை விளக்கும் கட்டளைகளின் தொகுப்பாகும். C, Python மற்றும் Java போன்ற மொழிகளில் நிரல்கள் எழுதப்படுகின்றன.",
-hi:"कंप्यूटर प्रोग्राम निर्देशों का एक समूह है जो कंप्यूटर को बताता है कि कौन से कार्य करने हैं। C, Python और Java जैसी भाषाओं में प्रोग्राम लिखे जाते हैं।"
-},
-{
-keys:["algorithm","படிமுறை","एल्गोरिदम"],
-en:"An algorithm is a step-by-step procedure used to solve a problem. Example: Steps to add two numbers.",
-ta:"அல்காரிதம் என்பது ஒரு பிரச்சினையைத் தீர்க்கப் பயன்படுத்தப்படும் படிப்படியான செயல்முறையாகும்.",
-hi:"एल्गोरिदम किसी समस्या को हल करने की चरण-दर-चरण प्रक्रिया है।"
-},
-{
-keys:["variable","மாறி","चर"],
-en:"A variable is a named storage location used to hold data in a program. Example in C: int age = 18;",
-ta:"மாறி என்பது ஒரு நிரலில் தரவைச் சேமிக்கப் பயன்படும் பெயரிடப்பட்ட இடமாகும். C மொழியில்: int age = 18;",
-hi:"वेरिएबल प्रोग्राम में डेटा रखने के लिए उपयोग किया जाने वाला नामित स्थान है। C में: int age = 18;"
-},
-{
-keys:["c language","சி மொழி","सी भाषा"],
-en:"C is a general-purpose programming language. It is used to develop software and learn programming fundamentals.",
-ta:"C என்பது ஒரு பொதுப் பயன்பாட்டு நிரலாக்க மொழியாகும். மென்பொருள் உருவாக்கவும் நிரலாக்க அடிப்படைகளைக் கற்கவும் பயன்படுகிறது.",
-hi:"C एक सामान्य प्रयोजन की प्रोग्रामिंग भाषा है। इसका उपयोग सॉफ्टवेयर बनाने और प्रोग्रामिंग सीखने में होता है।"
-},
-{
-keys:["computer","கணினி","कंप्यूटर"],
-en:"A computer is an electronic device that accepts data, processes it and produces information.",
-ta:"கணினி என்பது தரவைப் பெற்று செயலாக்கி தகவலாக வழங்கும் மின்னணு சாதனமாகும்.",
-hi:"कंप्यूटर एक इलेक्ट्रॉनिक उपकरण है जो डेटा प्राप्त करता है, उसे संसाधित करता है और जानकारी देता है।"
-}
-]
-
-};
-
-
-// ===================================
-// 3. OFFLINE ANSWER ENGINE
-// ===================================
-
-function generateAnswer(text){
-
-const subject = $("subject").value;
-const lang = $("language").value;
-const q = text.toLowerCase();
-
-const list = lessons[subject] || [];
-
-const found = list.find(item =>
-item.keys.some(key => q.includes(key.toLowerCase()))
-);
-
-if(found){
-  return lang === "ta-IN" ? found.ta :
-         lang === "hi-IN" ? found.hi :
-         found.en;
-}
-
-if(lang === "ta-IN")
-return "இந்த கேள்விக்கான பாடம் ஆஃப்லைன் தரவுத்தளத்தில் இல்லை. AI வசதி இணைக்கப்பட்டால் புதிய பதில் கிடைக்கும்.";
-
-if(lang === "hi-IN")
-return "यह प्रश्न ऑफलाइन डेटाबेस में उपलब्ध नहीं है। AI सेवा जुड़ने पर नया उत्तर मिलेगा।";
-
-return "This question is not yet in the offline lesson database. Connect the AI Tutor to answer new academic questions.";
-
-}
-
-
-// ===================================
-// 4. HYBRID AI ENGINE
-// ===================================
-
-async function respond(text){
-
-text = text.trim();
-
-if(!text){
-  $("status").textContent = "Please enter your question.";
-  return;
-}
-
-if("speechSynthesis" in window){
-  speechSynthesis.cancel();
-}
-
-$("recognized").textContent = text;
-
-currentAnswer = generateAnswer(text);
-$("answer").textContent = currentAnswer;
-$("engine").textContent = "Learning engine: Offline lessons";
-
-// Offline mode works even without a backend.
-if(!AI_BACKEND_URL){
-  $("status").textContent = "Offline learning mode active.";
-  return;
-}
-
-$("ask").disabled = true;
-$("status").textContent = "AI Tutor is thinking...";
-
-try{
-
-const response = await fetch(
-AI_BACKEND_URL + "/api/ask",
-{
-method:"POST",
-headers:{"Content-Type":"application/json"},
-body:JSON.stringify({
-question:text,
-subject:$("subject").value,
-language:$("language").selectedOptions[0].text
-})
-}
-);
-
-if(!response.ok) throw new Error("AI unavailable");
-
-const data = await response.json();
-
-if(!data.answer) throw new Error("Empty answer");
-
-currentAnswer = data.answer;
-
-$("answer").textContent = currentAnswer;
-$("engine").textContent = "Learning engine: AI Tutor";
-$("status").textContent = "AI explanation generated successfully!";
-
-}
-catch(error){
-
-$("engine").textContent = "Learning engine: Offline fallback";
-$("status").textContent = "AI unavailable. Offline lesson is still available.";
-
-}
-finally{
-$("ask").disabled = false;
-}
-
-}
-
-
-// ===================================
-// 5. ASK BUTTON AND ENTER KEY
-// ===================================
-
-$("ask").onclick = () => {
-respond($("question").value);
-};
-
-$("question").addEventListener("keydown",event=>{
-if(event.key === "Enter"){
-respond($("question").value);
-}
-});
-
-
-// ===================================
-// 6. VOICE OUTPUT
-// ===================================
-
-$("speak").onclick = () => {
-
-if(!currentAnswer){
-  $("status").textContent = "Ask a question first.";
-  return;
-}
-
-if(!("speechSynthesis" in window)){
-  $("status").textContent = "Speech output is unavailable.";
-  return;
-}
-
-speechSynthesis.cancel();
-
-const msg = new SpeechSynthesisUtterance(currentAnswer);
-msg.lang = $("language").value;
-msg.rate = 0.9;
-
-speechSynthesis.speak(msg);
-
-};
-
-
-// ===================================
-// 7. VOICE INPUT
-// ===================================
-
-const SpeechAPI =
-window.SpeechRecognition ||
-window.webkitSpeechRecognition;
-
-$("mic").onclick = () => {
-
-if(!SpeechAPI){
-  $("status").textContent =
-  "Voice recognition unavailable. Please type your question.";
-  return;
-}
-
-if(recognition){
-  recognition.abort();
-}
-
-recognition = new SpeechAPI();
-recognition.lang = $("language").value;
-recognition.continuous = false;
-recognition.interimResults = false;
-
-recognition.onstart = () => {
-  $("mic").classList.add("listening");
-  $("status").textContent = "Listening... Speak now!";
-};
-
-recognition.onresult = event => {
-  const text = event.results[0][0].transcript;
-  $("question").value = text;
-  respond(text);
-};
-
-recognition.onerror = event => {
-  $("status").textContent =
-  "Voice error: " + event.error + ". Please type instead.";
-};
-
-recognition.onend = () => {
-  $("mic").classList.remove("listening");
-};
-
-try{
-  recognition.start();
-}catch(error){
-  $("status").textContent = "Please try the microphone again.";
-}
-
-};
-
-
-// ===================================
-// 8. TAB NAVIGATION
-// ===================================
-
-$("learnTab").onclick = () => {
-
-$("learnSection").classList.remove("hidden");
-$("quizSection").classList.add("hidden");
-
-$("learnTab").classList.add("active");
-$("quizTab").classList.remove("active");
-
-};
-
-$("quizTab").onclick = () => {
-
-$("quizSection").classList.remove("hidden");
-$("learnSection").classList.add("hidden");
-
-$("quizTab").classList.add("active");
-$("learnTab").classList.remove("active");
-
-};
-
-
-// ===================================
-// 9. QUIZ DATABASE
-// ===================================
+// Question format:
+// q = question, o = options, a = correct option index.
 
 const quizzes = {
 
-science:[
-{q:"Which gas do plants release during photosynthesis?",o:["Oxygen","Nitrogen","Hydrogen"],a:0},
-{q:"Which force pulls objects towards Earth?",o:["Friction","Gravity","Magnetism"],a:1},
-{q:"What is the water cycle?",o:["Water movement","Rock formation","Combustion"],a:0}
-],
-
-maths:[
-{q:"What is 1/2 + 1/2?",o:["1","2","1/2"],a:0},
-{q:"If x + 2 = 5, what is x?",o:["2","3","5"],a:1},
-{q:"What is the area formula for a circle?",o:["2πr","πr²","πd"],a:1}
-],
-
 english:[
-{q:"Which word is a noun?",o:["Run","Beautiful","Teacher"],a:2},
-{q:"Which word is a verb?",o:["Eat","Book","Tall"],a:0},
-{q:"Which word is an adjective?",o:["Quickly","Beautiful","Write"],a:1}
+{q:"Which is a noun?",o:["Run","Teacher","Quickly","Beautiful"],a:1},
+{q:"Choose the correct plural of 'child'.",o:["Childs","Childes","Children","Childrens"],a:2},
+{q:"Which is a verb?",o:["Beautiful","Running","Blue","Tall"],a:1},
+{q:"What is the opposite of 'ancient'?",o:["Old","Modern","Historic","Past"],a:1},
+{q:"Choose the correct article: ___ apple.",o:["A","An","The only","No article"],a:1}
+],
+
+tamil:[
+{q:"தமிழ் மொழியின் முதல் இலக்கண நூல் எது?",o:["திருக்குறள்","தொல்காப்பியம்","சிலப்பதிகாரம்","மணிமேகலை"],a:1},
+{q:"திருக்குறளை இயற்றியவர் யார்?",o:["கம்பர்","இளங்கோவடிகள்","திருவள்ளுவர்","அவ்வையார்"],a:2},
+{q:"தமிழில் உயிரெழுத்துகள் எத்தனை?",o:["10","12","18","216"],a:1},
+{q:"தமிழில் மெய்யெழுத்துகள் எத்தனை?",o:["12","18","30","247"],a:1},
+{q:"சிலப்பதிகாரத்தின் ஆசிரியர் யார்?",o:["சீத்தலைச் சாத்தனார்","இளங்கோவடிகள்","கம்பர்","திருவள்ளுவர்"],a:1}
 ],
 
 physics:[
-{q:"What is the SI unit of force?",o:["Joule","Newton","Watt"],a:1},
-{q:"What is the SI unit of energy?",o:["Joule","Newton","Metre"],a:0},
-{q:"Which law is represented by F = ma?",o:["Newton's second law","First law","Third law"],a:0}
+{q:"What is the SI unit of force?",o:["Joule","Newton","Watt","Pascal"],a:1},
+{q:"Which law is represented by F = ma?",o:["Newton's first law","Newton's second law","Newton's third law","Law of gravitation"],a:1},
+{q:"What is the SI unit of energy?",o:["Newton","Watt","Joule","Volt"],a:2},
+{q:"Which property measures resistance to deformation?",o:["Elasticity","Density","Velocity","Pressure"],a:0},
+{q:"What is the SI unit of frequency?",o:["Metre","Hertz","Joule","Newton"],a:1}
 ],
 
 chemistry:[
-{q:"What is the chemical formula of water?",o:["CO2","H2O","O2"],a:1},
-{q:"What is the pH of a neutral solution at 25°C?",o:["7","2","12"],a:0},
-{q:"What are the building blocks of polymers?",o:["Monomers","Electrons","Neutrons"],a:0}
+{q:"What is the chemical formula of water?",o:["CO2","H2O","O2","NaCl"],a:1},
+{q:"What does the 5R concept promote?",o:["Waste generation","Sustainable waste management","More pollution","Single-use products"],a:1},
+{q:"What is biochar commonly produced from?",o:["Biomass","Metal","Glass","Sand"],a:0},
+{q:"What is the pH of a neutral solution at 25°C?",o:["2","5","7","12"],a:2},
+{q:"Which is an example of biodegradable material?",o:["Plastic bottle","Vegetable waste","Aluminium can","Glass"],a:1}
 ],
 
-computer:[
-{q:"Which is a programming language?",o:["Python","HTML only","Monitor"],a:0},
-{q:"What is an algorithm?",o:["A step-by-step procedure","A keyboard","A screen"],a:0},
-{q:"Which data type stores whole numbers in C?",o:["int","float","char"],a:0}
+maths:[
+{q:"What is the determinant of [[1,0],[0,1]]?",o:["0","1","2","-1"],a:1},
+{q:"What is the derivative of x²?",o:["x","2x","x²","2"],a:1},
+{q:"What is the integral of 1 dx?",o:["1","x + C","0","x²"],a:1},
+{q:"What is the identity matrix?",o:["A matrix with all zeros","A matrix with diagonal ones and other entries zero","A matrix with all ones","A rectangular matrix"],a:1},
+{q:"What is the derivative of sin x?",o:["cos x","-cos x","tan x","-sin x"],a:0}
 ]
 
 };
 
+let questions=[];
+let index=0;
+let marks=0;
+let answered=false;
+let running=false;
 
-// ===================================
-// 10. QUIZ ENGINE
-// ===================================
+function startQuiz(){
 
-function loadQuiz(){
+ const subject=$("subject").value;
+ questions=quizzes[subject];
+ index=0;
+ marks=0;
+ answered=false;
+ running=true;
 
-activeQuiz = quizzes[$("subject").value] || quizzes.science;
+ $("score").textContent="";
+ $("start").textContent="Restart Quiz";
 
-quizIndex = 0;
-quizScore = 0;
-selected = false;
-
-showQuiz();
+ showQuestion();
 
 }
 
-function showQuiz(){
+function showQuestion(){
 
-const q = activeQuiz[quizIndex];
+ const q=questions[index];
 
-$("quizQuestion").textContent =
-"Question " + (quizIndex+1) +
-" of " + activeQuiz.length + ": " + q.q;
+ $("progress").textContent=
+ "Question "+(index+1)+" of "+questions.length;
 
-$("quizOptions").innerHTML = "";
-$("feedback").textContent = "";
-selected = false;
+ $("question").textContent=q.q;
+ $("options").innerHTML="";
+ $("feedback").textContent="";
+ $("next").textContent=
+ index===questions.length-1?"Finish Quiz":"Next Question →";
 
-q.o.forEach((option,i)=>{
+ answered=false;
 
-const btn = document.createElement("button");
+ q.o.forEach((option,i)=>{
 
-btn.className = "option";
-btn.textContent = option;
+  const btn=document.createElement("button");
+  btn.className="option";
+  btn.textContent=String.fromCharCode(65+i)+". "+option;
 
-btn.onclick = () => checkAnswer(i);
+  btn.onclick=()=>selectAnswer(i);
 
-$("quizOptions").appendChild(btn);
+  $("options").appendChild(btn);
+
+ });
+
+}
+
+function selectAnswer(choice){
+
+ if(answered||!running)return;
+
+ answered=true;
+
+ const q=questions[index];
+ const buttons=$("options").querySelectorAll("button");
+
+ buttons.forEach((btn,i)=>{
+
+  btn.disabled=true;
+
+  if(i===q.a)btn.classList.add("correct");
+
+  if(i===choice&&choice!==q.a)
+    btn.classList.add("wrong");
+
+ });
+
+ if(choice===q.a){
+
+  marks++;
+
+  $("feedback").textContent="✅ Correct! Excellent work!";
+
+ }else{
+
+  $("feedback").textContent=
+   "❌ Incorrect. Correct answer: "+q.o[q.a];
+
+ }
+
+}
+
+function nextQuestion(){
+
+ if(!running){
+
+  $("feedback").textContent="Press Start Quiz first.";
+  return;
+
+ }
+
+ if(!answered){
+
+  $("feedback").textContent="Please select an answer first.";
+  return;
+
+ }
+
+ index++;
+
+ if(index>=questions.length){
+
+  finishQuiz();
+  return;
+
+ }
+
+ showQuestion();
+
+}
+
+function finishQuiz(){
+
+ running=false;
+
+ $("progress").textContent="Quiz completed!";
+
+ $("question").textContent="Congratulations! 🎉";
+
+ $("options").innerHTML="";
+
+ $("feedback").textContent="You have completed your practice.";
+
+ $("score").textContent=
+ "Your Score: "+marks+" / "+questions.length;
+
+ $("next").textContent="Quiz Completed";
+
+ $("start").textContent="Start Again";
+
+}
+
+$("start").addEventListener("click",startQuiz);
+$("next").addEventListener("click",nextQuestion);
+
+$("subject").addEventListener("change",()=>{
+
+ running=false;
+
+ $("progress").textContent="Subject changed";
+
+ $("question").textContent=
+ "Press Start Quiz to begin your new subject.";
+
+ $("options").innerHTML="";
+ $("feedback").textContent="";
+ $("score").textContent="";
+ $("start").textContent="▶ Start Quiz";
 
 });
 
-}
-
-function checkAnswer(i){
-
-if(selected) 
+</script>
+</body>
+</html>
