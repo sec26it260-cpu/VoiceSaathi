@@ -1,138 +1,87 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VoiceSaathi AI</title>
+<title>VoiceSaathi Edu</title>
 
 <style>
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+font-family:Arial,sans-serif;
+background:linear-gradient(135deg,#07152b,#102d42,#092d32);
+color:white;min-height:100vh;padding:18px
 }
 
-body {
-  font-family: Arial, sans-serif;
-  background: linear-gradient(135deg,#07152b,#102d42,#092d32);
-  color: white;
-  min-height: 100vh;
-  padding: 22px;
+.container{
+max-width:680px;margin:25px auto;
+background:#10263b;padding:25px;
+border-radius:22px;border:1px solid #31566b;
+box-shadow:0 15px 50px #0007
 }
 
-.container {
-  max-width: 650px;
-  margin: 35px auto;
-  background: #10263b;
-  padding: 28px;
-  border-radius: 24px;
-  border: 1px solid #31566b;
-  box-shadow: 0 15px 50px #0007;
+h1{text-align:center;color:#53e5b2;font-size:30px}
+.subtitle{text-align:center;color:#b9ccdc;margin:12px 0 25px}
+label{display:block;margin:16px 0 8px;color:#9fe8d0}
+
+select,input{
+width:100%;padding:14px;border-radius:11px;
+border:1px solid #45657b;background:#071b2d;
+color:white;font-size:15px
 }
 
-h1 {
-  text-align: center;
-  color: #53e5b2;
-  font-size: 32px;
+button{cursor:pointer}
+
+.mic-area{text-align:center;margin:25px 0}
+
+#mic{
+width:95px;height:95px;border-radius:50%;
+border:none;background:#13c993;font-size:40px;
+box-shadow:0 0 25px #13c99366
 }
 
-.subtitle {
-  text-align: center;
-  color: #b9ccdc;
-  margin: 12px 0 25px;
+#mic.listening{background:#ef665e;animation:pulse 1s infinite}
+
+@keyframes pulse{50%{transform:scale(1.08)}}
+
+#status{text-align:center;color:#9fe8d0;margin-top:13px}
+
+.action{
+width:100%;padding:14px;border:0;border-radius:11px;
+margin-top:12px;background:#1764e8;color:white;
+font-size:16px;font-weight:bold
 }
 
-label {
-  display: block;
-  margin: 15px 0 8px;
-  color: #9fe8d0;
+.action:hover{background:#287cf5}
+
+.card{
+background:#071b2d;border:1px solid #31566b;
+border-radius:14px;padding:17px;margin-top:18px
 }
 
-select, input {
-  width: 100%;
-  padding: 14px;
-  border-radius: 12px;
-  border: 1px solid #45657b;
-  background: #071b2d;
-  color: white;
-  font-size: 16px;
-}
+.card h3{color:#53e5b2;margin-bottom:12px}
+.card p{line-height:1.7;color:#e1eaf0;overflow-wrap:anywhere}
 
-.mic-area {
-  text-align: center;
-  margin: 30px 0;
-}
+.small{color:#9bb4c6;font-size:13px;margin-top:9px}
+.footer{text-align:center;margin-top:25px;color:#8ba9bb;font-size:13px}
 
-#mic {
-  width: 105px;
-  height: 105px;
-  border-radius: 50%;
-  border: none;
-  background: #13c993;
-  font-size: 42px;
-  cursor: pointer;
-  box-shadow: 0 0 30px #13c99366;
+.tabs{display:flex;gap:9px;margin:18px 0}
+.tabs button{
+flex:1;padding:12px;border-radius:10px;
+border:1px solid #31566b;background:#071b2d;color:white
 }
+.tabs button.active{background:#13a982;border-color:#13a982}
 
-#mic.listening {
-  background: #ef665e;
-  animation: pulse 1s infinite;
+.option{
+padding:13px;margin:9px 0;background:#17374b;
+border-radius:10px;cursor:pointer;border:1px solid #31566b
 }
+.option:hover{border-color:#53e5b2}
 
-@keyframes pulse {
-  50% { transform: scale(1.09); }
-}
-
-#status {
-  color: #9fe8d0;
-  margin-top: 15px;
-}
-
-button {
-  cursor: pointer;
-}
-
-.action {
-  width: 100%;
-  padding: 14px;
-  border: none;
-  border-radius: 12px;
-  margin-top: 12px;
-  background: #1764e8;
-  color: white;
-  font-size: 16px;
-  font-weight: bold;
-}
-
-.action:hover {
-  background: #287cf5;
-}
-
-.card {
-  background: #071b2d;
-  border: 1px solid #31566b;
-  border-radius: 15px;
-  padding: 18px;
-  margin-top: 20px;
-}
-
-.card h3 {
-  color: #53e5b2;
-  margin-bottom: 12px;
-}
-
-.card p {
-  line-height: 1.7;
-  color: #e1eaf0;
-  overflow-wrap: anywhere;
-}
-
-.footer {
-  text-align: center;
-  margin-top: 25px;
-  color: #8ba9bb;
-  font-size: 13px;
-}
+#feedback{margin-top:12px;color:#53e5b2;line-height:1.6}
+.hidden{display:none}
 </style>
 </head>
 
@@ -140,208 +89,357 @@ button {
 
 <div class="container">
 
-<h1>🎙️ VoiceSaathi AI</h1>
+<h1>🎓 VoiceSaathi Edu</h1>
+<p class="subtitle">Learn smarter. Speak your language. Grow together.</p>
 
-<p class="subtitle">
-Your voice. Your language. A smarter India.
-</p>
+<div class="tabs">
+<button id="learnTab" class="active">📚 Learn</button>
+<button id="quizTab">🧠 Practice</button>
+</div>
 
 <label>Select your language</label>
-
 <select id="language">
-  <option value="en-IN">English</option>
-  <option value="ta-IN">தமிழ் (Tamil)</option>
-  <option value="hi-IN">हिन्दी (Hindi)</option>
+<option value="en-IN">English</option>
+<option value="ta-IN">தமிழ் (Tamil)</option>
+<option value="hi-IN">हिन्दी (Hindi)</option>
 </select>
 
+<label>Select subject</label>
+<select id="subject">
+<option value="science">Science</option>
+<option value="maths">Mathematics</option>
+<option value="english">English</option>
+</select>
+
+<div id="learnSection">
+
 <div class="mic-area">
-  <button id="mic">🎤</button>
-  <p id="status">Press the microphone and speak</p>
+<button id="mic">🎤</button>
+<p id="status">Press the microphone and ask your doubt</p>
 </div>
 
-<label>Your question</label>
+<label>Ask your question</label>
+<input id="question" placeholder="Example: Explain photosynthesis">
 
-<input id="question"
-placeholder="Ask about waste sorting...">
-
-<button class="action" id="ask">
-  Ask VoiceSaathi →
-</button>
+<button class="action" id="ask">Ask VoiceSaathi →</button>
 
 <div class="card">
-  <h3>📝 Recognized Speech</h3>
-  <p id="recognized">Your speech will appear here.</p>
+<h3>📝 Your Question</h3>
+<p id="recognized">Your question appears here.</p>
 </div>
 
 <div class="card">
-  <h3>🤖 VoiceSaathi Response</h3>
-  <p id="answer">
-    Hello! Ask me how to sort your waste.
-  </p>
-  <button class="action" id="speak">
-    🔊 Speak Answer
-  </button>
+<h3>🤖 Learning Explanation</h3>
+<p id="answer">Hello! Ask me an educational question.</p>
+<button class="action" id="speak">🔊 Listen to Explanation</button>
+</div>
+
+</div>
+
+<div id="quizSection" class="hidden">
+
+<div class="card">
+<h3>🧠 Practice Time</h3>
+<p id="quizQuestion">Press Start Quiz to begin learning.</p>
+<div id="quizOptions"></div>
+<p id="feedback"></p>
+<button class="action" id="startQuiz">Start Quiz</button>
+<button class="action" id="nextQuiz">Next Question</button>
+</div>
+
 </div>
 
 <div class="footer">
-  Built for SCALER × Flow | Round 2
+VoiceSaathi Edu | SCALER × Flow | Round 2
 </div>
 
 </div>
 
 <script>
-const mic = document.getElementById("mic");
-const statusText = document.getElementById("status");
-const question = document.getElementById("question");
-const recognized = document.getElementById("recognized");
-const answer = document.getElementById("answer");
-const language = document.getElementById("language");
 
-const SpeechRecognition =
-  window.SpeechRecognition ||
-  window.webkitSpeechRecognition;
+const $ = id => document.getElementById(id);
 
-let recognition;
 let currentAnswer = "";
+let recognition = null;
+let quizIndex = 0;
+let quizScore = 0;
 
-const database = {
-  plastic: {
-    en: "Clean plastic bottles and containers should go into the recyclable dry-waste collection. Follow your local municipal collection rules.",
-    ta: "சுத்தமான பிளாஸ்டிக் பாட்டில்கள் மற்றும் கொள்கலன்களை மறுசுழற்சி செய்யக்கூடிய உலர் குப்பைகளுடன் சேர்க்கவும். உள்ளூர் விதிகளைப் பின்பற்றவும்.",
-    hi: "साफ प्लास्टिक की बोतलों और डिब्बों को सूखे पुनर्चक्रण योग्य कचरे में डालें। स्थानीय नियमों का पालन करें।"
-  },
-  food: {
-    en: "Food scraps, vegetable peels and fruit waste generally belong in the wet-waste or compost collection.",
-    ta: "உணவுக் கழிவுகள், காய்கறித் தோல்கள் மற்றும் பழக் கழிவுகளை ஈரக் குப்பை அல்லது உரமாக்கும் சேகரிப்பில் போடுங்கள்.",
-    hi: "खाने के बचे हुए हिस्से, सब्जियों और फलों के छिलकों को गीले कचरे या कम्पोस्ट में डालें।"
-  },
-  paper: {
-    en: "Clean and dry paper and cardboard can generally be recycled. Keep them separate from wet waste.",
-    ta: "சுத்தமான மற்றும் உலர்ந்த காகிதம், அட்டைப்பெட்டிகளை மறுசுழற்சி செய்யலாம். ஈரக் குப்பையிலிருந்து தனியாக வைக்கவும்.",
-    hi: "साफ और सूखे कागज तथा गत्ते को आमतौर पर पुनर्चक्रित किया जा सकता है। इन्हें गीले कचरे से अलग रखें।"
-  },
-  battery: {
-    en: "Do not put batteries in ordinary household waste. Give them to an authorized battery collection or e-waste facility.",
-    ta: "பேட்டரிகளை சாதாரண வீட்டுக் குப்பையில் போட வேண்டாம். அங்கீகரிக்கப்பட்ட பேட்டரி சேகரிப்பு மையத்தில் ஒப்படைக்கவும்.",
-    hi: "बैटरियों को सामान्य घरेलू कचरे में न डालें। उन्हें अधिकृत बैटरी संग्रह केंद्र में दें।"
-  }
+const lessons = {
+
+science: [
+{
+keys:["photosynthesis","ஒளிச்சேர்க்கை","प्रकाश संश्लेषण"],
+en:"Photosynthesis is the process by which green plants prepare their food using sunlight, water and carbon dioxide. Oxygen is released during this process. Example: A green leaf uses sunlight to make food.",
+ta:"ஒளிச்சேர்க்கை என்பது பச்சைத் தாவரங்கள் சூரிய ஒளி, நீர் மற்றும் கார்பன் டை ஆக்சைடைப் பயன்படுத்தி உணவு தயாரிக்கும் செயல்முறையாகும். இந்த செயல்பாட்டில் ஆக்சிஜன் வெளியிடப்படுகிறது.",
+hi:"प्रकाश संश्लेषण वह प्रक्रिया है जिसमें हरे पौधे सूर्य के प्रकाश, पानी और कार्बन डाइऑक्साइड की मदद से अपना भोजन बनाते हैं। इस प्रक्रिया में ऑक्सीजन निकलती है।"
+},
+{
+keys:["gravity","ஈர்ப்பு","गुरुत्वाकर्षण"],
+en:"Gravity is a force that attracts objects towards each other. Earth's gravity pulls objects towards its centre. Example: A ball falls towards the ground because of gravity.",
+ta:"ஈர்ப்பு விசை என்பது பொருட்களை ஒன்றை ஒன்று ஈர்க்கும் விசையாகும். பூமியின் ஈர்ப்பு விசை பொருட்களை அதன் மையத்தை நோக்கி இழுக்கிறது. உதாரணம்: பந்து கீழே விழுவது ஈர்ப்பு விசையால்.",
+hi:"गुरुत्वाकर्षण वह बल है जो वस्तुओं को एक-दूसरे की ओर आकर्षित करता है। पृथ्वी का गुरुत्वाकर्षण वस्तुओं को अपनी ओर खींचता है।"
+},
+{
+keys:["water cycle","நீர்சுழற்சி","जल चक्र"],
+en:"The water cycle is the continuous movement of water between the Earth's surface and atmosphere. Its main stages are evaporation, condensation and precipitation.",
+ta:"நீர்சுழற்சி என்பது பூமியின் மேற்பரப்புக்கும் வளிமண்டலத்திற்கும் இடையே நீர் தொடர்ந்து சுழலும் செயல்முறையாகும். ஆவியாதல், குளிர்தல் மற்றும் மழைப்பொழிவு இதன் முக்கிய நிலைகள்.",
+hi:"जल चक्र पृथ्वी की सतह और वायुमंडल के बीच पानी की निरंतर गति है। इसके मुख्य चरण वाष्पीकरण, संघनन और वर्षा हैं।"
+}
+],
+
+maths: [
+{
+keys:["fraction","பின்னம்","भिन्न"],
+en:"A fraction represents a part of a whole. It has a numerator on top and a denominator at the bottom. Example: 1/2 means one part out of two equal parts.",
+ta:"பின்னம் என்பது ஒரு முழுமையின் ஒரு பகுதியைக் குறிக்கிறது. இதில் மேலே தொகுதி, கீழே பகுதி இருக்கும். உதாரணம்: 1/2 என்பது இரண்டு சம பாகங்களில் ஒரு பாகம்.",
+hi:"भिन्न किसी पूर्ण वस्तु के एक भाग को दर्शाता है। इसमें ऊपर अंश और नीचे हर होता है। उदाहरण: 1/2 का अर्थ है दो बराबर भागों में से एक भाग।"
+},
+{
+keys:["algebra","இயற்கணிதம்","बीजगणित"],
+en:"Algebra is a branch of mathematics that uses letters and symbols to represent unknown numbers. Example: If x + 2 = 5, then x = 3.",
+ta:"இயற்கணிதம் என்பது தெரியாத எண்களைக் குறிக்க எழுத்துகளையும் குறியீடுகளையும் பயன்படுத்தும் கணிதப் பிரிவாகும். உதாரணம்: x + 2 = 5 என்றால் x = 3.",
+hi:"बीजगणित गणित की वह शाखा है जिसमें अज्ञात संख्याओं को दर्शाने के लिए अक्षरों और चिह्नों का उपयोग होता है। उदाहरण: x + 2 = 5, तो x = 3।"
+},
+{
+keys:["area of circle","வட்டத்தின் பரப்பளவு","वृत्त का क्षेत्रफल"],
+en:"The area of a circle is calculated using the formula A = πr², where r is the radius. Example: If radius is 2 units, area is 4π square units.",
+ta:"வட்டத்தின் பரப்பளவைக் கணக்கிடும் சூத்திரம் A = πr². இங்கு r என்பது ஆரம். ஆரம் 2 அலகுகள் என்றால் பரப்பளவு 4π சதுர அலகுகள்.",
+hi:"वृत्त का क्षेत्रफल A = πr² सूत्र से निकाला जाता है। यहाँ r त्रिज्या है। यदि त्रिज्या 2 इकाई है, तो क्षेत्रफल 4π वर्ग इकाई होगा।"
+}
+],
+
+english: [
+{
+keys:["noun","பெயர்ச்சொல்","संज्ञा"],
+en:"A noun is a word that names a person, place, animal or thing. Examples: student, Chennai, dog and book.",
+ta:"பெயர்ச்சொல் என்பது மனிதர், இடம், விலங்கு அல்லது பொருளைக் குறிக்கும் சொல். உதாரணம்: மாணவர், சென்னை, நாய், புத்தகம்.",
+hi:"संज्ञा वह शब्द है जो किसी व्यक्ति, स्थान, जानवर या वस्तु का नाम बताता है। उदाहरण: छात्र, चेन्नई, कुत्ता और किताब।"
+},
+{
+keys:["verb","வினைச்சொல்","क्रिया"],
+en:"A verb is an action word or a word that describes a state. Examples: run, eat, write and think.",
+ta:"வினைச்சொல் என்பது ஒரு செயலை அல்லது நிலையைக் குறிக்கும் சொல். உதாரணம்: ஓடு, சாப்பிடு, எழுது, சிந்தி.",
+hi:"क्रिया वह शब्द है जो किसी कार्य या अवस्था को बताता है। उदाहरण: दौड़ना, खाना, लिखना और सोचना।"
+},
+{
+keys:["adjective","பெயரடை","विशेषण"],
+en:"An adjective describes a noun. Examples: beautiful flower, tall building and clever student.",
+ta:"பெயரடை என்பது பெயர்ச்சொல்லின் தன்மையை விளக்கும் சொல். உதாரணம்: அழகான மலர், உயரமான கட்டிடம்.",
+hi:"विशेषण वह शब्द है जो संज्ञा की विशेषता बताता है। उदाहरण: सुंदर फूल, ऊँची इमारत।"
+}
+]
+
 };
 
-function getAnswer(text, lang) {
-  const q = text.toLowerCase();
+function findLesson(text,subject) {
+const q=text.toLowerCase();
+return lessons[subject].find(item =>
+item.keys.some(key=>q.includes(key.toLowerCase()))
+);
+}
 
-  let key = "";
+function generateAnswer(text) {
+const lang=$("language").value;
+const subject=$("subject").value;
+const lesson=findLesson(text,subject);
 
-  if (/plastic|பிளாஸ்டிக்|प्लास्टिक/.test(q)) key = "plastic";
-  else if (/food|vegetable|fruit|உணவு|காய்கறி|பழம்|खाना|सब्जी|फल/.test(q)) key = "food";
-  else if (/paper|cardboard|காகிதம்|அட்டை|कागज|गत्ता/.test(q)) key = "paper";
-  else if (/battery|பேட்டரி|बैटरी/.test(q)) key = "battery";
+if(!lesson) {
+if(lang==="ta-IN")
+return "இந்த தலைப்புக்கான பாடம் இன்னும் சேர்க்கப்படவில்லை. Photosynthesis, Gravity, Fraction, Algebra அல்லது Noun போன்ற தலைப்புகளைக் கேளுங்கள்.";
+if(lang==="hi-IN")
+return "यह विषय अभी उपलब्ध नहीं है। Photosynthesis, Gravity, Fraction, Algebra या Noun जैसे विषय पूछें।";
+return "I don't have a lesson for this topic yet. Try Photosynthesis, Gravity, Fraction, Algebra, Noun or Verb.";
+}
 
-  if (key) {
-    const code = lang === "ta-IN" ? "ta" :
-                 lang === "hi-IN" ? "hi" : "en";
-    return database[key][code];
-  }
+return lang==="ta-IN"?lesson.ta:
+lang==="hi-IN"?lesson.hi:lesson.en;
+}
 
-  if (lang === "ta-IN") {
-    return "உங்கள் கேள்வியைப் புரிந்துகொள்ள முடியவில்லை. பிளாஸ்டிக், உணவுக் கழிவு, காகிதம் அல்லது பேட்டரி பற்றி கேளுங்கள்.";
-  }
-
-  if (lang === "hi-IN") {
-    return "मैं आपका सवाल समझ नहीं पाया। प्लास्टिक, भोजन का कचरा, कागज या बैटरी के बारे में पूछें।";
-  }
-
-  return "I can help with plastic, food waste, paper and batteries. Please try asking about one of these.";
+function speak(text) {
+if(!text || !("speechSynthesis" in window)) {
+$("status").textContent="Speech output is not supported.";
+return;
+}
+speechSynthesis.cancel();
+const msg=new SpeechSynthesisUtterance(text);
+msg.lang=$("language").value;
+msg.rate=0.9;
+speechSynthesis.speak(msg);
 }
 
 function respond(text) {
-  if (!text.trim()) {
-    statusText.textContent = "Please enter a question.";
-    return;
-  }
-
-  const lang = language.value;
-
-  recognized.textContent = text;
-  currentAnswer = getAnswer(text, lang);
-  answer.textContent = currentAnswer;
-
-  statusText.textContent = "Answer generated successfully!";
-  speakAnswer();
+if(!text.trim()) {
+$("status").textContent="Please enter your question.";
+return;
 }
 
-function speakAnswer() {
-  if (!currentAnswer) return;
-
-  if (!("speechSynthesis" in window)) {
-    statusText.textContent = "Speech output is not supported.";
-    return;
-  }
-
-  speechSynthesis.cancel();
-
-  const speech = new SpeechSynthesisUtterance(currentAnswer);
-  speech.lang = language.value;
-  speech.rate = 0.9;
-
-  speechSynthesis.speak(speech);
+$("recognized").textContent=text;
+currentAnswer=generateAnswer(text);
+$("answer").textContent=currentAnswer;
+$("status").textContent="Learning explanation generated!";
 }
 
-mic.addEventListener("click", () => {
-  if (!SpeechRecognition) {
-    statusText.textContent =
-      "Voice recognition is not supported. Try Chrome.";
-    return;
-  }
+$("ask").onclick=()=>respond($("question").value);
 
-  if (recognition) {
-    recognition.abort();
-  }
+$("speak").onclick=()=>speak(currentAnswer);
 
-  recognition = new SpeechRecognition();
-  recognition.lang = language.value;
-  recognition.continuous = false;
-  recognition.interimResults = false;
+const SpeechAPI=window.SpeechRecognition||window.webkitSpeechRecognition;
 
-  recognition.onstart = () => {
-    mic.classList.add("listening");
-    statusText.textContent = "Listening... Speak now!";
-  };
+$("mic").onclick=()=>{
+if(!SpeechAPI) {
+$("status").textContent="Voice recognition unavailable. Please type your question.";
+return;
+}
 
-  recognition.onresult = (event) => {
-    const text = event.results[0][0].transcript;
-    question.value = text;
-    respond(text);
-  };
+if(recognition) recognition.abort();
 
-  recognition.onerror = (event) => {
-    statusText.textContent = "Voice error: " + event.error +
-      ". You can type your question instead.";
-  };
+recognition=new SpeechAPI();
+recognition.lang=$("language").value;
+recognition.continuous=false;
+recognition.interimResults=false;
 
-  recognition.onend = () => {
-    mic.classList.remove("listening");
-  };
+recognition.onstart=()=>{
+$("mic").classList.add("listening");
+$("status").textContent="Listening... Speak now!";
+};
 
-  try {
-    recognition.start();
-  } catch (error) {
-    statusText.textContent = "Please try the microphone again.";
-    mic.classList.remove("listening");
-  }
+recognition.onresult=e=>{
+const text=e.results[0][0].transcript;
+$("question").value=text;
+respond(text);
+};
+
+recognition.onerror=e=>{
+$("status").textContent="Voice error: "+e.error+". You can type instead.";
+};
+
+recognition.onend=()=>{
+$("mic").classList.remove("listening");
+};
+
+try{recognition.start();}
+catch(e){$("status").textContent="Please try again.";}
+};
+
+// Learning and practice tabs
+
+$("learnTab").onclick=()=>{
+$("learnSection").classList.remove("hidden");
+$("quizSection").classList.add("hidden");
+$("learnTab").classList.add("active");
+$("quizTab").classList.remove("active");
+};
+
+$("quizTab").onclick=()=>{
+$("quizSection").classList.remove("hidden");
+$("learnSection").classList.add("hidden");
+$("quizTab").classList.add("active");
+$("learnTab").classList.remove("active");
+};
+
+// Quiz questions
+
+const quizzes={
+science:[
+{q:"Which gas do plants release during photosynthesis?",o:["Oxygen","Nitrogen","Hydrogen"],a:0},
+{q:"What force pulls objects towards Earth?",o:["Friction","Gravity","Magnetism"],a:1},
+{q:"Which process changes water into vapour?",o:["Freezing","Evaporation","Condensation"],a:1}
+],
+maths:[
+{q:"What is 1/2 + 1/2?",o:["1","2","1/2"],a:0},
+{q:"If x + 2 = 5, what is x?",o:["2","3","5"],a:1},
+{q:"What is the formula for a circle's area?",o:["2πr","πr²","πd"],a:1}
+],
+english:[
+{q:"Which word is a noun?",o:["Run","Beautiful","Teacher"],a:2},
+{q:"Which word is a verb?",o:["Eat","Book","Tall"],a:0},
+{q:"Which word is an adjective?",o:["Quickly","Beautiful","Write"],a:1}
+]
+};
+
+let activeQuiz=[];
+let selected=false;
+
+function loadQuiz(){
+activeQuiz=quizzes[$("subject").value];
+quizIndex=0;
+quizScore=0;
+selected=false;
+showQuiz();
+}
+
+function showQuiz(){
+const q=activeQuiz[quizIndex];
+$("quizQuestion").textContent=
+"Question "+(quizIndex+1)+" of "+activeQuiz.length+": "+q.q;
+
+$("quizOptions").innerHTML="";
+$("feedback").textContent="";
+selected=false;
+
+q.o.forEach((option,i)=>{
+const btn=document.createElement("button");
+btn.className="option";
+btn.textContent=option;
+btn.style.width="100%";
+btn.style.color="white";
+btn.style.textAlign="left";
+btn.onclick=()=>checkAnswer(i);
+$("quizOptions").appendChild(btn);
 });
+}
 
-document.getElementById("ask").addEventListener("click", () => {
-  respond(question.value);
-});
+function checkAnswer(i){
+if(selected)return;
+selected=true;
 
-document.getElementById("speak").addEventListener("click", speakAnswer);
+const q=activeQuiz[quizIndex];
 
-language.addEventListener("change", () => {
-  statusText.textContent = "Language changed. Ask a new question.";
-});
+if(i===q.a){
+quizScore++;
+$("feedback").textContent="Correct! Excellent work! 🎉";
+}else{
+$("feedback").textContent="Not quite! Correct answer: "+q.o[q.a];
+}
+}
+
+$("startQuiz").onclick=loadQuiz;
+
+$("nextQuiz").onclick=()=>{
+if(!activeQuiz.length){
+$("feedback").textContent="Press Start Quiz first.";
+return;
+}
+if(!selected){
+$("feedback").textContent="Choose an answer first.";
+return;
+}
+
+quizIndex++;
+
+if(quizIndex>=activeQuiz.length){
+$("quizQuestion").textContent="Quiz completed!";
+$("quizOptions").innerHTML="";
+$("feedback").textContent=
+"Your score: "+quizScore+"/"+activeQuiz.length+
+". Great effort! Try another round.";
+activeQuiz=[];
+return;
+}
+
+showQuiz();
+};
+
+$("subject").onchange=()=>{
+currentAnswer="";
+$("answer").textContent="Choose a topic and ask your question.";
+$("recognized").textContent="Your question appears here.";
+};
+
+$("language").onchange=()=>{
+$("status").textContent="Language updated. Ask your next question.";
+};
 
 </script>
-
 </body>
 </html>
