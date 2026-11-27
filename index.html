@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VoiceSaathi AI</title>
+
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg,#07152b,#102d42,#092d32);
+  color: white;
+  min-height: 100vh;
+  padding: 22px;
+}
+
+.container {
+  max-width: 650px;
+  margin: 35px auto;
+  background: #10263b;
+  padding: 28px;
+  border-radius: 24px;
+  border: 1px solid #31566b;
+  box-shadow: 0 15px 50px #0007;
+}
+
+h1 {
+  text-align: center;
+  color: #53e5b2;
+  font-size: 32px;
+}
+
+.subtitle {
+  text-align: center;
+  color: #b9ccdc;
+  margin: 12px 0 25px;
+}
+
+label {
+  display: block;
+  margin: 15px 0 8px;
+  color: #9fe8d0;
+}
+
+select, input {
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  border: 1px solid #45657b;
+  background: #071b2d;
+  color: white;
+  font-size: 16px;
+}
+
+.mic-area {
+  text-align: center;
+  margin: 30px 0;
+}
+
+#mic {
+  width: 105px;
+  height: 105px;
+  border-radius: 50%;
+  border: none;
+  background: #13c993;
+  font-size: 42px;
+  cursor: pointer;
+  box-shadow: 0 0 30px #13c99366;
+}
+
+#mic.listening {
+  background: #ef665e;
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  50% { transform: scale(1.09); }
+}
+
+#status {
+  color: #9fe8d0;
+  margin-top: 15px;
+}
+
+button {
+  cursor: pointer;
+}
+
+.action {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 12px;
+  margin-top: 12px;
+  background: #1764e8;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.action:hover {
+  background: #287cf5;
+}
+
+.card {
+  background: #071b2d;
+  border: 1px solid #31566b;
+  border-radius: 15px;
+  padding: 18px;
+  margin-top: 20px;
+}
+
+.card h3 {
+  color: #53e5b2;
+  margin-bottom: 12px;
+}
+
+.card p {
+  line-height: 1.7;
+  color: #e1eaf0;
+  overflow-wrap: anywhere;
+}
+
+.footer {
+  text-align: center;
+  margin-top: 25px;
+  color: #8ba9bb;
+  font-size: 13px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>🎙️ VoiceSaathi AI</h1>
+
+<p class="subtitle">
+Your voice. Your language. A smarter India.
+</p>
+
+<label>Select your language</label>
+
+<select id="language">
+  <option value="en-IN">English</option>
+  <option value="ta-IN">தமிழ் (Tamil)</option>
+  <option value="hi-IN">हिन्दी (Hindi)</option>
+</select>
+
+<div class="mic-area">
+  <button id="mic">🎤</button>
+  <p id="status">Press the microphone and speak</p>
+</div>
+
+<label>Your question</label>
+
+<input id="question"
+placeholder="Ask about waste sorting...">
+
+<button class="action" id="ask">
+  Ask VoiceSaathi →
+</button>
+
+<div class="card">
+  <h3>📝 Recognized Speech</h3>
+  <p id="recognized">Your speech will appear here.</p>
+</div>
+
+<div class="card">
+  <h3>🤖 VoiceSaathi Response</h3>
+  <p id="answer">
+    Hello! Ask me how to sort your waste.
+  </p>
+  <button class="action" id="speak">
+    🔊 Speak Answer
+  </button>
+</div>
+
+<div class="footer">
+  Built for SCALER × Flow | Round 2
+</div>
+
+</div>
+
+<script>
+const mic = document.getElementById("mic");
+const statusText = document.getElementById("status");
+const question = document.getElementById("question");
+const recognized = document.getElementById("recognized");
+const answer = document.getElementById("answer");
+const language = document.getElementById("language");
+
+const SpeechRecognition =
+  window.SpeechRecognition ||
+  window.webkitSpeechRecognition;
+
+let recognition;
+let currentAnswer = "";
+
+const database = {
+  plastic: {
+    en: "Clean plastic bottles and containers should go into the recyclable dry-waste collection. Follow your local municipal collection rules.",
+    ta: "சுத்தமான பிளாஸ்டிக் பாட்டில்கள் மற்றும் கொள்கலன்களை மறுசுழற்சி செய்யக்கூடிய உலர் குப்பைகளுடன் சேர்க்கவும். உள்ளூர் விதிகளைப் பின்பற்றவும்.",
+    hi: "साफ प्लास्टिक की बोतलों और डिब्बों को सूखे पुनर्चक्रण योग्य कचरे में डालें। स्थानीय नियमों का पालन करें।"
+  },
+  food: {
+    en: "Food scraps, vegetable peels and fruit waste generally belong in the wet-waste or compost collection.",
+    ta: "உணவுக் கழிவுகள், காய்கறித் தோல்கள் மற்றும் பழக் கழிவுகளை ஈரக் குப்பை அல்லது உரமாக்கும் சேகரிப்பில் போடுங்கள்.",
+    hi: "खाने के बचे हुए हिस्से, सब्जियों और फलों के छिलकों को गीले कचरे या कम्पोस्ट में डालें।"
+  },
+  paper: {
+    en: "Clean and dry paper and cardboard can generally be recycled. Keep them separate from wet waste.",
+    ta: "சுத்தமான மற்றும் உலர்ந்த காகிதம், அட்டைப்பெட்டிகளை மறுசுழற்சி செய்யலாம். ஈரக் குப்பையிலிருந்து தனியாக வைக்கவும்.",
+    hi: "साफ और सूखे कागज तथा गत्ते को आमतौर पर पुनर्चक्रित किया जा सकता है। इन्हें गीले कचरे से अलग रखें।"
+  },
+  battery: {
+    en: "Do not put batteries in ordinary household waste. Give them to an authorized battery collection or e-waste facility.",
+    ta: "பேட்டரிகளை சாதாரண வீட்டுக் குப்பையில் போட வேண்டாம். அங்கீகரிக்கப்பட்ட பேட்டரி சேகரிப்பு மையத்தில் ஒப்படைக்கவும்.",
+    hi: "बैटरियों को सामान्य घरेलू कचरे में न डालें। उन्हें अधिकृत बैटरी संग्रह केंद्र में दें।"
+  }
+};
+
+function getAnswer(text, lang) {
+  const q = text.toLowerCase();
+
+  let key = "";
+
+  if (/plastic|பிளாஸ்டிக்|प्लास्टिक/.test(q)) key = "plastic";
+  else if (/food|vegetable|fruit|உணவு|காய்கறி|பழம்|खाना|सब्जी|फल/.test(q)) key = "food";
+  else if (/paper|cardboard|காகிதம்|அட்டை|कागज|गत्ता/.test(q)) key = "paper";
+  else if (/battery|பேட்டரி|बैटरी/.test(q)) key = "battery";
+
+  if (key) {
+    const code = lang === "ta-IN" ? "ta" :
+                 lang === "hi-IN" ? "hi" : "en";
+    return database[key][code];
+  }
+
+  if (lang === "ta-IN") {
+    return "உங்கள் கேள்வியைப் புரிந்துகொள்ள முடியவில்லை. பிளாஸ்டிக், உணவுக் கழிவு, காகிதம் அல்லது பேட்டரி பற்றி கேளுங்கள்.";
+  }
+
+  if (lang === "hi-IN") {
+    return "मैं आपका सवाल समझ नहीं पाया। प्लास्टिक, भोजन का कचरा, कागज या बैटरी के बारे में पूछें।";
+  }
+
+  return "I can help with plastic, food waste, paper and batteries. Please try asking about one of these.";
+}
+
+function respond(text) {
+  if (!text.trim()) {
+    statusText.textContent = "Please enter a question.";
+    return;
+  }
+
+  const lang = language.value;
+
+  recognized.textContent = text;
+  currentAnswer = getAnswer(text, lang);
+  answer.textContent = currentAnswer;
+
+  statusText.textContent = "Answer generated successfully!";
+  speakAnswer();
+}
+
+function speakAnswer() {
+  if (!currentAnswer) return;
+
+  if (!("speechSynthesis" in window)) {
+    statusText.textContent = "Speech output is not supported.";
+    return;
+  }
+
+  speechSynthesis.cancel();
+
+  const speech = new SpeechSynthesisUtterance(currentAnswer);
+  speech.lang = language.value;
+  speech.rate = 0.9;
+
+  speechSynthesis.speak(speech);
+}
+
+mic.addEventListener("click", () => {
+  if (!SpeechRecognition) {
+    statusText.textContent =
+      "Voice recognition is not supported. Try Chrome.";
+    return;
+  }
+
+  if (recognition) {
+    recognition.abort();
+  }
+
+  recognition = new SpeechRecognition();
+  recognition.lang = language.value;
+  recognition.continuous = false;
+  recognition.interimResults = false;
+
+  recognition.onstart = () => {
+    mic.classList.add("listening");
+    statusText.textContent = "Listening... Speak now!";
+  };
+
+  recognition.onresult = (event) => {
+    const text = event.results[0][0].transcript;
+    question.value = text;
+    respond(text);
+  };
+
+  recognition.onerror = (event) => {
+    statusText.textContent = "Voice error: " + event.error +
+      ". You can type your question instead.";
+  };
+
+  recognition.onend = () => {
+    mic.classList.remove("listening");
+  };
+
+  try {
+    recognition.start();
+  } catch (error) {
+    statusText.textContent = "Please try the microphone again.";
+    mic.classList.remove("listening");
+  }
+});
+
+document.getElementById("ask").addEventListener("click", () => {
+  respond(question.value);
+});
+
+document.getElementById("speak").addEventListener("click", speakAnswer);
+
+language.addEventListener("change", () => {
+  statusText.textContent = "Language changed. Ask a new question.";
+});
+
+</script>
+
+</body>
+</html>
