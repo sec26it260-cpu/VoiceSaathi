@@ -811,5 +811,15 @@ $("status").textContent =
 
 </script>
 
+$("ask").onclick = () => {
+  respond($("question").value);
+};
+
+$("question").addEventListener("keydown", (event) => {
+  if (event.key === "Enter") {
+    respond($("question").value);
+  }
+});
+  
 </body>
 </html>
